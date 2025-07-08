@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,15 +18,16 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex space-x-4">
             {navItems.map((item) => (
-              <a
+              <Button
                 key={item.name}
-                href={item.href}
-                className="text-nav-text hover:text-hero-text hover:bg-nav-hover px-3 py-2 rounded-md text-sm font-medium transition-all duration-200"
+                variant="ghost"
+                asChild
+                className="text-nav-text hover:text-hero-text hover:bg-nav-hover"
               >
-                {item.name}
-              </a>
+                <a href={item.href}>{item.name}</a>
+              </Button>
             ))}
           </div>
 
@@ -43,16 +45,17 @@ const Navigation = () => {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-hero-bg/95 rounded-lg mt-2">
+            <div className="px-2 pt-2 pb-3 space-y-2 bg-hero-bg/95 rounded-lg mt-2">
               {navItems.map((item) => (
-                <a
+                <Button
                   key={item.name}
-                  href={item.href}
-                  className="text-nav-text hover:text-hero-text hover:bg-nav-hover block px-3 py-2 rounded-md text-base font-medium transition-all duration-200"
+                  variant="ghost"
+                  asChild
+                  className="w-full justify-start text-nav-text hover:text-hero-text hover:bg-nav-hover"
                   onClick={() => setIsOpen(false)}
                 >
-                  {item.name}
-                </a>
+                  <a href={item.href}>{item.name}</a>
+                </Button>
               ))}
             </div>
           </div>
