@@ -24,6 +24,13 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				'hero-bg': 'hsl(var(--hero-bg))',
+				'nav-text': 'hsl(var(--nav-text))',
+				'nav-hover': 'hsl(var(--nav-hover))',
+				'hero-text': 'hsl(var(--hero-text))',
+				'hero-subtitle': 'hsl(var(--hero-subtitle))',
+				'about-bg': 'hsl(var(--about-bg))',
+				'about-text': 'hsl(var(--about-text))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
