@@ -2,16 +2,47 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const easeInOutCubic = (t: number) =>
+  t < 0.5
+    ? 4 * t * t * t
+    : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+const scrollToSection = (id: string) => {
+  const section = document.getElementById(id);
+  if (!section) return;
+  const start = window.scrollY;
+  const end = section.getBoundingClientRect().top + window.scrollY - 64; // offset for sticky nav
+  const duration = 600;
+  let startTime: number | null = null;
+
+  function animateScroll(currentTime: number) {
+    if (!startTime) startTime = currentTime;
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = easeInOutCubic(progress);
+    window.scrollTo(0, start + (end - start) * ease);
+    if (progress < 1) {
+      requestAnimationFrame(animateScroll);
+    }
+  }
+  requestAnimationFrame(animateScroll);
+};
+
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "About me", href: "#about" },
-    { name: "Programming", href: "#programming" },
-    { name: "Photography", href: "#photography" },
-    { name: "Photo Editing", href: "#photo-editing" },
+    { name: "Home", href: "#home", id: "home" },
+    { name: "About me", href: "#about", id: "about" },
+    { name: "Programming", href: "#programming", id: "programming" },
+    { name: "Projects", href: "#projects", id: "projects" },
+    { name: "Photography", href: "#photography", id: "photography" },
+    { name: "Photo Editing", href: "#photo-editing", id: "photo-editing" },
   ];
+
+  const handleNavClick = (id: string) => {
+    setTimeout(() => scrollToSection(id), 120); // slight delay for button feedback
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-hero-bg/90 backdrop-blur-sm border-b border-white/20">
@@ -23,10 +54,11 @@ const Navigation = () => {
               <Button
                 key={item.name}
                 variant="ghost"
-                asChild
-                className="text-nav-text hover:text-hero-text hover:bg-nav-hover"
+                asChild={false}
+                className="text-nav-text hover:text-hero-text hover:bg-nav-hover transition-transform duration-150 active:scale-95"
+                onClick={() => handleNavClick(item.id)}
               >
-                <a href={item.href}>{item.name}</a>
+                {item.name}
               </Button>
             ))}
           </div>
@@ -35,7 +67,7 @@ const Navigation = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-nav-text hover:text-hero-text p-2"
+              className="text-nav-text hover:text-hero-text p-2 transition-transform duration-150 active:scale-90"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -50,11 +82,14 @@ const Navigation = () => {
                 <Button
                   key={item.name}
                   variant="ghost"
-                  asChild
-                  className="w-full justify-start text-nav-text hover:text-hero-text hover:bg-nav-hover"
-                  onClick={() => setIsOpen(false)}
+                  asChild={false}
+                  className="w-full justify-start text-nav-text hover:text-hero-text hover:bg-nav-hover transition-transform duration-150 active:scale-95"
+                  onClick={() => {
+                    setIsOpen(false);
+                    setTimeout(() => scrollToSection(item.id), 120);
+                  }}
                 >
-                  <a href={item.href}>{item.name}</a>
+                  {item.name}
                 </Button>
               ))}
             </div>

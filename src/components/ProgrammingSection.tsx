@@ -3,24 +3,20 @@ import { Code, Database, Globe, Smartphone } from "lucide-react";
 const ProgrammingSection = () => {
   const skills = [
     {
-      icon: <Code className="w-8 h-8" />,
-      title: "Full-Stack Development",
-      description: "Building robust web applications with modern frameworks and technologies."
+      title: "C# Development",
+      description: "A collection of C# projects demonstrating expertise in object-oriented programming, .NET development, and practical software design. Each application emphasizes maintainability, performance, and clean architecture."
     },
     {
-      icon: <Database className="w-8 h-8" />,
-      title: "Database Design",
-      description: "Creating efficient and scalable database architectures for complex systems."
+      title: "JavaScript",
+      description: "A range of JavaScript projects highlighting dynamic, interactive web experiences using both vanilla JS and modern frameworks like React. Code is structured for clarity, responsiveness, and user engagement."
     },
     {
-      icon: <Globe className="w-8 h-8" />,
-      title: "Web Technologies",
-      description: "Expertise in React, TypeScript, Node.js, and modern development tools."
+      title: "HTML & CSS",
+      description: "Responsive, well-structured web designs built with semantic HTML and modern CSS techniques. Projects emphasize clean layouts, accessibility, and cross-device compatibility using Flexbox and Grid."
     },
     {
-      icon: <Smartphone className="w-8 h-8" />,
-      title: "Responsive Design",
-      description: "Crafting user experiences that work seamlessly across all devices."
+      title: "React",
+      description: "Modern web applications built with React, focusing on reusable components, efficient state management, and seamless API integration. Emphasis is placed on performance, scalability, and clean UI logic."
     }
   ];
 

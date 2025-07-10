@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getAllImages, addImage, removeImageByIndex, clearAllImages } from "@/lib/imageDb";
 
 // Default placeholder images - replace with your own
 const defaultImages = [
@@ -13,24 +14,43 @@ const defaultImages = [
 ];
 
 const PhotoGallery = () => {
-  const [images, setImages] = useState(defaultImages);
+  const [images, setImages] = useState<string[]>(defaultImages);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getAllImages().then((imgs) => {
+      if (imgs.length > 0) setImages(imgs);
+      setLoading(false);
+    });
+  }, []);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = async (e) => {
         const result = e.target?.result as string;
-        setImages(prev => [...prev, result]);
+        await addImage(result);
+        const imgs = await getAllImages();
+        setImages(imgs);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const removeImage = (index: number) => {
-    setImages(prev => prev.filter((_, i) => i !== index));
+  const removeImage = async (index: number) => {
+    await removeImageByIndex(index);
+    const imgs = await getAllImages();
+    setImages(imgs.length > 0 ? imgs : defaultImages);
   };
+
+  const handleClear = async () => {
+    await clearAllImages();
+    setImages(defaultImages);
+  };
+
+  if (loading) return <div>Loading gallery...</div>;
 
   return (
     <div className="space-y-8">
@@ -48,6 +68,7 @@ const PhotoGallery = () => {
             <Plus className="w-4 h-4" />
             Add Photo
           </Button>
+          <Button onClick={handleClear} variant="destructive" className="ml-2">Clear All</Button>
         </div>
       </div>
 
